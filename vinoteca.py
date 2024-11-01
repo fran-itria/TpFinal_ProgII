@@ -45,17 +45,45 @@ class Vinoteca:
                 pass  # completar
         pass  # completar
 
-    def buscarBodega(id):
-        pass  # completar
-
-    def buscarCepa(id):
-        pass  # completar
-
-    def buscarVino(id):
-        pass  # completar
+    def buscarBodega(self, id):
+        for bodega in self.bodegas:
+            if bodega.obtenerId() == id:
+                return bodega
+        return None
+        
+    def buscarCepa(self, id):
+        for cepa in self.cepas:
+            if cepa.obtenerId() == id:
+                return cepa
+        return None
+    
+    def buscarVino(self, id):
+        for vino in self.vinos:
+            if vino.obtenerId() == id:
+                return vino
+        return None
+    
+    def __convertirJsonAListas(self, lista):
+        for item in lista:
+            if item['tipo'] == 'bodega':
+                self.bodegas.append(item['nombre'])
+            elif item['tipo'] == 'cepa':
+                self.cepas.append(item['nombre'])
+            elif item['tipo'] == 'vino':
+                self.vinos.append(item['nombre'])
 
     def __parsearArchivoDeDatos():
-        pass  # completar
-
-    def __convertirJsonAListas(lista):
-        pass  # completar
+        datos = {}
+        if os.path.exists(Vinoteca.__archivoDeDatos):
+            try:
+                with open(Vinoteca.__archivoDeDatos, 'r') as archivo:
+                    datos = json.load(archivo)
+            except FileNotFoundError:
+                print("El archivo no existe")
+            except json.JSONDecodeError:
+                print("El archivo no contiene datos JSON validos")
+            except Exception as e:
+                print(f"Error al leer el archivo: {e}")
+            else:
+                print(f'El archivo "{Vinoteca.__archivoDeDatos}" se abrio y leyo correctamente')
+        return datos
