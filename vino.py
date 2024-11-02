@@ -1,5 +1,6 @@
 import json
 from entidadvineria import EntidadVineria
+from vinoteca import Vinoteca
 
 
 
@@ -20,7 +21,7 @@ class Vino(EntidadVineria):
         self.__partidas = partidas
         
     def obtenerBodega(self):
-        return Vinoteca.buscarBodega(self.__bodega)
+        return Vinoteca.buscarBodega(self.__id)
 
     def __repr__(self):
         return json.dumps({"nombre": self.obtenerNombre()})

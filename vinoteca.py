@@ -7,7 +7,6 @@ from modelos.bodega import Bodega
 from modelos.cepa import Cepa
 from modelos.vino import Vino
 
-
 class Vinoteca:
 
     __archivoDeDatos = "vinoteca.json"
@@ -19,50 +18,52 @@ class Vinoteca:
         datos = Vinoteca.__parsearArchivoDeDatos()
         Vinoteca.__convertirJsonAListas(datos)
 
-    def obtenerBodegas(orden=None, reverso=False):
+    def obtenerBodegas(orden=None, reverso=False) -> list[Bodega]:
         if isinstance(orden, str):
             if orden == "nombre":
-                pass  # completar
+                return sorted(Vinoteca.__bodegas, key=lambda b: b.obtenerNombre(), reverse=reverso)
             elif orden == "vinos":
-                pass  # completar
-        pass  # completar
-
-    def obtenerCepas(orden=None, reverso=False):
+                return sorted(Vinoteca.__bodegas, key=lambda b: len(b.obtenerVinos()), reverse=reverso)
+        return Vinoteca.__bodegas.copy()
+    
+    def obtenerCepas(orden=None, reverso=False) -> list[Cepa]:
         if isinstance(orden, str):
             if orden == "nombre":
-                pass  # completar
-        pass  # completar
-
-    def obtenerVinos(anio=None, orden=None, reverso=False):
+                return sorted(Vinoteca.__cepas, key=lambda c: c.obtenerNombre(), reverse=reverso)
+        return Vinoteca.__cepas.copy()
+    
+    def obtenerVinos(anio=None, orden=None, reverso=False) -> list[Vino]:
+        vinos = Vinoteca.__vinos
         if isinstance(anio, int):
-            pass  # completar
+            vinos = [vino for vino in vinos if anio in vino.obtenerPartidas()]
         if isinstance(orden, str):
             if orden == "nombre":
-                pass  # completar
+                vinos = sorted(vinos, key=lambda v: v.obtenerNombre(), reverse=reverso)
             elif orden == "bodega":
-                pass  # completar
+                vinos = sorted(vinos, key=lambda v: v.obtenerBodega().obtenerNombre(), reverse=reverso)
             elif orden == "cepas":
-                pass  # completar
-        pass  # completar
-
-    def buscarBodega(id):
+                return sorted(vinos, key=lambda v: len(v.obtenerCepas()), reverse=reverso)
+        return vinos
+    
+    def buscarBodega(id) -> Bodega:
         for bodega in Vinoteca.__bodegas:
             if bodega.obtenerId() == id:
                 return bodega
         return None
         
-    def buscarCepa(id):
+    def buscarCepa(id) -> Cepa:
         for cepa in Vinoteca.__cepas:
             if cepa.obtenerId() == id:
                 return cepa
         return None
     
-    def buscarVino(id):
+    def buscarVino(id) -> Vino:
         for vino in Vinoteca.__vinos:
             if vino.obtenerId() == id:
                 return vino
         return None
     
+    @staticmethod
     def __convertirJsonAListas(lista):
         for item in lista:
             if item['tipo'] == 'bodega':

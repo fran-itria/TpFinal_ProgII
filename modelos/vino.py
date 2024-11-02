@@ -26,7 +26,7 @@ class Vino(EntidadVineria):
         cepasTodas = Vinoteca.obtenerCepas()
         cepas = []
         for cepa in cepasTodas:
-            
+            for cepaVino in self.__cepas:            
     
     def obtenerPartidas(self):
         return self.__partidas
