@@ -45,33 +45,33 @@ class Vinoteca:
                 pass  # completar
         pass  # completar
 
-    def buscarBodega(self, id):
-        for bodega in self.bodegas:
+    def buscarBodega(id):
+        for bodega in Vinoteca.__bodegas:
             if bodega.obtenerId() == id:
                 return bodega
         return None
         
-    def buscarCepa(self, id):
-        for cepa in self.cepas:
+    def buscarCepa(id):
+        for cepa in Vinoteca.__cepas:
             if cepa.obtenerId() == id:
                 return cepa
         return None
     
-    def buscarVino(self, id):
-        for vino in self.vinos:
+    def buscarVino(id):
+        for vino in Vinoteca.__vinos:
             if vino.obtenerId() == id:
                 return vino
         return None
     
-    def __convertirJsonAListas(self, lista):
+    def __convertirJsonAListas(lista):
         for item in lista:
             if item['tipo'] == 'bodega':
-                self.bodegas.append(item['nombre'])
+                Vinoteca.__bodegas.append(Bodega(item['id'], item['nombre']))
             elif item['tipo'] == 'cepa':
-                self.cepas.append(item['nombre'])
+                Vinoteca.__cepas.append(Cepa(item['id'], item['nombre']))
             elif item['tipo'] == 'vino':
-                self.vinos.append(item['nombre'])
-
+                Vinoteca.__vinos.append(Vino(item['id'], item['nombre'], item['bodega'], item['cepas'], item['partidas']))
+    
     def __parsearArchivoDeDatos():
         datos = {}
         if os.path.exists(Vinoteca.__archivoDeDatos):
