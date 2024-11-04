@@ -1,6 +1,7 @@
 import json
 from entidadvineria import EntidadVineria
-from vinoteca import Vinoteca
+from modelos.bodega import Bodega
+from modelos.cepa import Cepa
 
 
 class Vino(EntidadVineria):
@@ -9,6 +10,9 @@ class Vino(EntidadVineria):
         self.__bodega = bodega
         self.__cepas = cepas
         self.__partidas = partidas
+        
+    def establecerNombre(self, nombre):
+        super().establecerNombre(nombre)
         
     def establecerBodega(self, bodega):
         self.__bodega = bodega
@@ -19,15 +23,20 @@ class Vino(EntidadVineria):
     def establecerPartidas(self, partidas):
         self.__partidas = partidas
         
-    def obtenerBodega(self):
-        return Vinoteca.buscarBodega(self.__id)
+    def obtenerBodega(self) -> Bodega:
+        from vinoteca import Vinoteca
+        return Vinoteca.buscarBodega(self._id)
     
-    def obtenerCepas(self):
+    def obtenerCepas(self) -> list[Cepa]:
+        from vinoteca import Vinoteca
         cepasTodas = Vinoteca.obtenerCepas()
         cepas = []
-        for cepa in cepasTodas:
-            for cepaVino in self.__cepas:            
-    
+        for cepaID in self.__cepas:
+            cepa = Vinoteca.buscarCepa(cepaID)
+            if cepa:
+                cepas.append(cepa)
+        return cepas
+        
     def obtenerPartidas(self):
         return self.__partidas
 
@@ -35,19 +44,21 @@ class Vino(EntidadVineria):
         return json.dumps({"nombre": self.obtenerNombre()})
 
     def convertirAJSON(self):
+        bodega = self.obtenerBodega()
         return {
             "id": self.obtenerId(),
             "nombre": self.obtenerNombre(),
-            "bodega": self.obtenerBodega().obtenerNombre(),
+            "bodega": bodega.obtenerNombre() if bodega else None,
             "cepas": self.__mapearCepas(),
             "partidas": self.__partidas,
         }
 
     def convertirAJSONFull(self):
+        bodega = self.obtenerBodega()
         return {
             "id": self.obtenerId(),
             "nombre": self.obtenerNombre(),
-            "bodega": self.obtenerBodega().obtenerNombre(),
+            "bodega": bodega.obtenerNombre() if bodega else None,
             "cepas": self.__mapearCepas(),
             "partidas": self.__partidas,
         }

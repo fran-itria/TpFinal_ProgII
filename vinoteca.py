@@ -24,13 +24,13 @@ class Vinoteca:
                 return sorted(Vinoteca.__bodegas, key=lambda b: b.obtenerNombre(), reverse=reverso)
             elif orden == "vinos":
                 return sorted(Vinoteca.__bodegas, key=lambda b: len(b.obtenerVinos()), reverse=reverso)
-        return Vinoteca.__bodegas.copy()
+        return Vinoteca.__bodegas
     
     def obtenerCepas(orden=None, reverso=False) -> list[Cepa]:
         if isinstance(orden, str):
             if orden == "nombre":
                 return sorted(Vinoteca.__cepas, key=lambda c: c.obtenerNombre(), reverse=reverso)
-        return Vinoteca.__cepas.copy()
+        return Vinoteca.__cepas
     
     def obtenerVinos(anio=None, orden=None, reverso=False) -> list[Vino]:
         vinos = Vinoteca.__vinos
@@ -46,33 +46,38 @@ class Vinoteca:
         return vinos
     
     def buscarBodega(id) -> Bodega:
+        b = None
         for bodega in Vinoteca.__bodegas:
             if bodega.obtenerId() == id:
-                return bodega
-        return None
+                b = bodega
+                break
+        return b
         
     def buscarCepa(id) -> Cepa:
+        c = None
         for cepa in Vinoteca.__cepas:
             if cepa.obtenerId() == id:
-                return cepa
-        return None
+                c = cepa
+                break
+        return c
     
     def buscarVino(id) -> Vino:
+        v = None
         for vino in Vinoteca.__vinos:
             if vino.obtenerId() == id:
-                return vino
-        return None
+                v = vino
+                break
+        return v
     
-    @staticmethod
     def __convertirJsonAListas(lista):
-        for item in lista:
-            if item['tipo'] == 'bodega':
-                Vinoteca.__bodegas.append(Bodega(item['id'], item['nombre']))
-            elif item['tipo'] == 'cepa':
-                Vinoteca.__cepas.append(Cepa(item['id'], item['nombre']))
-            elif item['tipo'] == 'vino':
-                Vinoteca.__vinos.append(Vino(item['id'], item['nombre'], item['bodega'], item['cepas'], item['partidas']))
-    
+        for bodega in lista['bodegas']:
+            Vinoteca.__bodegas.append(Bodega(bodega['id'], bodega['nombre']))
+
+        for cepa in lista['cepas']:
+            Vinoteca.__cepas.append(Cepa(cepa['id'], cepa['nombre']))
+
+        for vino in lista['vinos']:
+            Vinoteca.__vinos.append(Vino(vino['id'], vino['nombre'], vino['bodega'], vino['cepas'], vino['partidas']))
     def __parsearArchivoDeDatos():
         datos = {}
         if os.path.exists(Vinoteca.__archivoDeDatos):

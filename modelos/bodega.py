@@ -1,10 +1,24 @@
 import json
 from entidadvineria import EntidadVineria
 
-
 class Bodega(EntidadVineria):
     def __init__(self, id, nombre):
         super().__init__(id, nombre)
+        
+    def establecerNombre(self, nombre):
+        super().establecerNombre(nombre)
+                
+    def obtenerVinos(self):
+        from vinoteca import Vinoteca
+        vinosTodos = Vinoteca.obtenerVinos()
+        vinos = [vino for vino in vinosTodos if self._id == vino.obtenerBodega()]
+        return vinos
+    
+    def obtenerCepas(self):
+        from vinoteca import Vinoteca
+        vinosTodos = Vinoteca.obtenerVinos()
+        vinos = [vino for vino in vinosTodos if self._id == vino.obtenerCepas()]
+        return vinos
 
     def __repr__(self):
         return json.dumps(self.convertirAJSON())

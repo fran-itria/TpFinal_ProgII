@@ -15,6 +15,7 @@ class EntidadVineria(ABC):
     def obtenerId(self):
         return self._id
 
+    
     def equals(self, e):
         if isinstance(e, EntidadVineria):
             return self._id == e.obtenerId()
