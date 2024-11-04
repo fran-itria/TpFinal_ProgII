@@ -11,14 +11,19 @@ class Bodega(EntidadVineria):
     def obtenerVinos(self):
         from vinoteca import Vinoteca
         vinosTodos = Vinoteca.obtenerVinos()
-        vinos = [vino for vino in vinosTodos if self._id == vino.obtenerBodega()]
+        vinos = [vino for vino in vinosTodos if self._id == vino.obtenerBodega().obtenerId()]
         return vinos
     
     def obtenerCepas(self):
         from vinoteca import Vinoteca
+        cepas = []
         vinosTodos = Vinoteca.obtenerVinos()
-        vinos = [vino for vino in vinosTodos if self._id == vino.obtenerCepas()]
-        return vinos
+        for vino in vinosTodos:
+            if self._id == vino.obtenerBodega().obtenerId():
+                for cepa in vino.obtenerCepas():
+                    if cepa not in cepas:
+                        cepas.append(cepa)
+        return cepas
 
     def __repr__(self):
         return json.dumps(self.convertirAJSON())

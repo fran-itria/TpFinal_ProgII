@@ -3,7 +3,6 @@ from entidadvineria import EntidadVineria
 from modelos.bodega import Bodega
 from modelos.cepa import Cepa
 
-
 class Vino(EntidadVineria):
     def __init__(self, id, nombre, bodega, cepas, partidas):
         super().__init__(id, nombre)
@@ -25,7 +24,7 @@ class Vino(EntidadVineria):
         
     def obtenerBodega(self) -> Bodega:
         from vinoteca import Vinoteca
-        return Vinoteca.buscarBodega(self._id)
+        return Vinoteca.buscarBodega(self.__bodega)
     
     def obtenerCepas(self) -> list[Cepa]:
         from vinoteca import Vinoteca
@@ -48,7 +47,7 @@ class Vino(EntidadVineria):
         return {
             "id": self.obtenerId(),
             "nombre": self.obtenerNombre(),
-            "bodega": bodega.obtenerNombre() if bodega else None,
+            "bodega": bodega.obtenerNombre() if bodega else "No se encontro la bodega",
             "cepas": self.__mapearCepas(),
             "partidas": self.__partidas,
         }
@@ -58,7 +57,7 @@ class Vino(EntidadVineria):
         return {
             "id": self.obtenerId(),
             "nombre": self.obtenerNombre(),
-            "bodega": bodega.obtenerNombre() if bodega else None,
+            "bodega": bodega.obtenerNombre() if bodega else "No se encontro la bodega",
             "cepas": self.__mapearCepas(),
             "partidas": self.__partidas,
         }

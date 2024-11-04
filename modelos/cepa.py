@@ -11,7 +11,7 @@ class Cepa(EntidadVineria):
     def obtenerVinos(self):
         from vinoteca import Vinoteca
         vinosTodos = Vinoteca.obtenerVinos()
-        vinos = [vino for vino in vinosTodos if self._id == vino.obtenerCepas()]
+        vinos = [vino for vino in vinosTodos if self in vino.obtenerCepas()]
         return vinos
         
 

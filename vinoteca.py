@@ -19,18 +19,20 @@ class Vinoteca:
         Vinoteca.__convertirJsonAListas(datos)
 
     def obtenerBodegas(orden=None, reverso=False) -> list[Bodega]:
+        bodegas = Vinoteca.__bodegas
         if isinstance(orden, str):
             if orden == "nombre":
-                return sorted(Vinoteca.__bodegas, key=lambda b: b.obtenerNombre(), reverse=reverso)
+                bodegas = sorted(bodegas, key=lambda b: b.obtenerNombre(), reverse=reverso)
             elif orden == "vinos":
-                return sorted(Vinoteca.__bodegas, key=lambda b: len(b.obtenerVinos()), reverse=reverso)
-        return Vinoteca.__bodegas
-    
+                bodegas = sorted(bodegas, key=lambda b: len(b.obtenerVinos()), reverse=reverso)
+        return bodegas
+
     def obtenerCepas(orden=None, reverso=False) -> list[Cepa]:
+        cepas = Vinoteca.__cepas
         if isinstance(orden, str):
             if orden == "nombre":
-                return sorted(Vinoteca.__cepas, key=lambda c: c.obtenerNombre(), reverse=reverso)
-        return Vinoteca.__cepas
+                cepas = sorted(cepas, key=lambda c: c.obtenerNombre(), reverse=reverso)
+        return cepas
     
     def obtenerVinos(anio=None, orden=None, reverso=False) -> list[Vino]:
         vinos = Vinoteca.__vinos
@@ -46,38 +48,31 @@ class Vinoteca:
         return vinos
     
     def buscarBodega(id) -> Bodega:
-        b = None
         for bodega in Vinoteca.__bodegas:
             if bodega.obtenerId() == id:
-                b = bodega
-                break
-        return b
+                return bodega
+        return None
         
     def buscarCepa(id) -> Cepa:
-        c = None
         for cepa in Vinoteca.__cepas:
             if cepa.obtenerId() == id:
-                c = cepa
-                break
-        return c
+                return cepa
+        return None
     
     def buscarVino(id) -> Vino:
-        v = None
         for vino in Vinoteca.__vinos:
             if vino.obtenerId() == id:
-                v = vino
-                break
-        return v
+                return vino
+        return None
     
     def __convertirJsonAListas(lista):
         for bodega in lista['bodegas']:
             Vinoteca.__bodegas.append(Bodega(bodega['id'], bodega['nombre']))
-
         for cepa in lista['cepas']:
             Vinoteca.__cepas.append(Cepa(cepa['id'], cepa['nombre']))
-
         for vino in lista['vinos']:
             Vinoteca.__vinos.append(Vino(vino['id'], vino['nombre'], vino['bodega'], vino['cepas'], vino['partidas']))
+            
     def __parsearArchivoDeDatos():
         datos = {}
         if os.path.exists(Vinoteca.__archivoDeDatos):
