@@ -22,16 +22,16 @@ class Vinoteca:
         bodegas = Vinoteca.__bodegas
         if isinstance(orden, str):
             if orden == "nombre":
-                bodegas = sorted(bodegas, key=lambda b: b.obtenerNombre(), reverse=reverso)
+                return sorted(bodegas, key=lambda b: b.obtenerNombre(), reverse=reverso)
             elif orden == "vinos":
-                bodegas = sorted(bodegas, key=lambda b: len(b.obtenerVinos()), reverse=reverso)
+                return sorted(bodegas, key=lambda b: len(b.obtenerVinos()), reverse=reverso)
         return bodegas
 
     def obtenerCepas(orden=None, reverso=False) -> list[Cepa]:
         cepas = Vinoteca.__cepas
         if isinstance(orden, str):
             if orden == "nombre":
-                cepas = sorted(cepas, key=lambda c: c.obtenerNombre(), reverse=reverso)
+                return sorted(cepas, key=lambda c: c.obtenerNombre(), reverse=reverso)
         return cepas
     
     def obtenerVinos(anio=None, orden=None, reverso=False) -> list[Vino]:
@@ -40,9 +40,9 @@ class Vinoteca:
             vinos = [vino for vino in vinos if anio in vino.obtenerPartidas()]
         if isinstance(orden, str):
             if orden == "nombre":
-                vinos = sorted(vinos, key=lambda v: v.obtenerNombre(), reverse=reverso)
+                return sorted(vinos, key=lambda v: v.obtenerNombre(), reverse=reverso)
             elif orden == "bodega":
-                vinos = sorted(vinos, key=lambda v: v.obtenerBodega().obtenerNombre(), reverse=reverso)
+                return sorted(vinos, key=lambda v: v.obtenerBodega().obtenerNombre(), reverse=reverso)
             elif orden == "cepas":
                 return sorted(vinos, key=lambda v: len(v.obtenerCepas()), reverse=reverso)
         return vinos

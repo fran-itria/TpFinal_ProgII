@@ -10,9 +10,7 @@ class Cepa(EntidadVineria):
                 
     def obtenerVinos(self):
         from vinoteca import Vinoteca
-        vinosTodos = Vinoteca.obtenerVinos()
-        vinos = [vino for vino in vinosTodos if self in vino.obtenerCepas()]
-        return vinos
+        return [vino for vino in Vinoteca.obtenerVinos() if self in vino.obtenerCepas()]
         
 
     def __repr__(self):

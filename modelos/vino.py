@@ -28,7 +28,6 @@ class Vino(EntidadVineria):
     
     def obtenerCepas(self) -> list[Cepa]:
         from vinoteca import Vinoteca
-        cepasTodas = Vinoteca.obtenerCepas()
         cepas = []
         for cepaID in self.__cepas:
             cepa = Vinoteca.buscarCepa(cepaID)
