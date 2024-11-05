@@ -1,5 +1,6 @@
 import json
 from entidadvineria import EntidadVineria
+import vinoteca
 
 class Bodega(EntidadVineria):
     def __init__(self, id, nombre):
@@ -9,13 +10,11 @@ class Bodega(EntidadVineria):
         super().establecerNombre(nombre)
                 
     def obtenerVinos(self):
-        from vinoteca import Vinoteca
-        return [vino for vino in Vinoteca.obtenerVinos() if self._id == vino.obtenerBodega().obtenerId()]
+        return [vino for vino in vinoteca.Vinoteca.obtenerVinos() if self._id == vino.obtenerBodega().obtenerId()]
     
     def obtenerCepas(self):
-        from vinoteca import Vinoteca
         cepas = []
-        for vino in Vinoteca.obtenerVinos():
+        for vino in vinoteca.Vinoteca.obtenerVinos():
             if self._id == vino.obtenerBodega().obtenerId():
                 for cepa in vino.obtenerCepas():
                     if cepa not in cepas:

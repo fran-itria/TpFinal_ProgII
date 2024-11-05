@@ -1,5 +1,6 @@
 import json
 from entidadvineria import EntidadVineria
+import vinoteca
 
 class Cepa(EntidadVineria):
     def __init__(self, id, nombre):
@@ -9,9 +10,7 @@ class Cepa(EntidadVineria):
         super().establecerNombre(nombre)
                 
     def obtenerVinos(self):
-        from vinoteca import Vinoteca
-        return [vino for vino in Vinoteca.obtenerVinos() if self in vino.obtenerCepas()]
-        
+        return [vino for vino in vinoteca.Vinoteca.obtenerVinos() if self in vino.obtenerCepas()]
 
     def __repr__(self):
         return json.dumps({"nombre": self.obtenerNombre()})

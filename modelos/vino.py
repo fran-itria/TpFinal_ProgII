@@ -2,6 +2,7 @@ import json
 from entidadvineria import EntidadVineria
 from modelos.bodega import Bodega
 from modelos.cepa import Cepa
+import vinoteca
 
 class Vino(EntidadVineria):
     def __init__(self, id, nombre, bodega, cepas, partidas):
@@ -23,14 +24,12 @@ class Vino(EntidadVineria):
         self.__partidas = partidas
         
     def obtenerBodega(self) -> Bodega:
-        from vinoteca import Vinoteca
-        return Vinoteca.buscarBodega(self.__bodega)
+        return vinoteca.Vinoteca.buscarBodega(self.__bodega)
     
     def obtenerCepas(self) -> list[Cepa]:
-        from vinoteca import Vinoteca
         cepas = []
         for cepaID in self.__cepas:
-            cepa = Vinoteca.buscarCepa(cepaID)
+            cepa = vinoteca.Vinoteca.buscarCepa(cepaID)
             if cepa:
                 cepas.append(cepa)
         return cepas
