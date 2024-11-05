@@ -12,7 +12,7 @@ class Vino(EntidadVineria):
         self.__partidas = partidas
         
     def establecerNombre(self, nombre):
-        super().establecerNombre(nombre)
+        self._nombre = nombre
         
     def establecerBodega(self, bodega):
         self.__bodega = bodega

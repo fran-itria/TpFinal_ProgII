@@ -7,8 +7,8 @@ class Cepa(EntidadVineria):
         super().__init__(id, nombre)
     
     def establecerNombre(self, nombre):
-        super().establecerNombre(nombre)
-                
+        self._nombre = nombre
+                        
     def obtenerVinos(self):
         return [vino for vino in vinoteca.Vinoteca.obtenerVinos() if self in vino.obtenerCepas()]
 
